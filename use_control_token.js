@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 var ethers = require("ethers");
 var rp = require('request-promise');
 
@@ -21,6 +23,16 @@ function buildContractWithSigner(privateKey) {
 	let walletWithProvider = new ethers.Wallet(privateKey, provider);
 	
 	return contract.connect(walletWithProvider);
+}
+
+async function getGasPrice() {
+	// get gas prices from ETH Gas Station
+	const response = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
+	const data = response.data;
+
+	var gasPrice = data.fast / 10; // https://docs.ethgasstation.info/
+
+	return gasPrice;
 }
 
 async function useControlToken(tokenId, leverIds, newValues) {
@@ -53,7 +65,7 @@ async function useControlToken(tokenId, leverIds, newValues) {
 		newValues.splice(index, 1);		
 	}
 
-	var GAS_PRICE_GWEI = process.env.GAS_PRICE_GWEI; // TODO fetch this from gas station instead
+	var GAS_PRICE_GWEI = await getGasPrice();
 
 	if (leverIds.length > 0) {
 		var tx = await contractWithSigner.useControlToken(tokenId, leverIds, newValues, {
