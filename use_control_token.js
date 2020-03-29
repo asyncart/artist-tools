@@ -75,6 +75,9 @@ async function useControlToken(tokenId, leverIds, newValues) {
 
 	var GAS_PRICE_GWEI = await getGasPrice();
 
+	console.log("LeverIds = " + leverIds);
+	console.log("NewValues = " + newValues);
+
 	if (leverIds.length > 0) {
 		var tx = await contractWithSigner.useControlToken(tokenId, leverIds, newValues, {
 			gasPrice: ethers.utils.bigNumberify(GAS_PRICE_GWEI * 1000000000)
