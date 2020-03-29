@@ -13,7 +13,7 @@ var provider = null;
  * @newValues - Array of new values to update with [..., ..., ...]
  */
 
-async function run(callback, tokenId, leverIds, newValues) {
+async function run(tokenId, leverIds, newValues, callback) {
 	provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC_PROVIDER);
 
 	provider.getNetwork().then(async (network) => {		
