@@ -38,6 +38,8 @@ async function getGasPrice() {
 
 	var gasPrice = data.fast / 10; // https://docs.ethgasstation.info/
 
+	console.log("Gas Price = " + gasPrice + " GWEI")
+
 	return gasPrice;
 }
 
