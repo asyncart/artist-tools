@@ -6,5 +6,7 @@ Documentation coming soon (and webinar!). In the meantime, use_control_token.run
 These env variables have to be defined:
 
 JSON_RPC_PROVIDER=""
+
 CONTRACT_ADDRESS=""
+
 PRIVATE_KEY=""
