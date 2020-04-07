@@ -13,18 +13,18 @@ var provider = null;
  * @newValues - Array of new values to update with [..., ..., ...]
  */
 
-async function run(tokenId, leverIds, newValues, callback) {
-	provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC_PROVIDER);
+async function run(providerURL, privateKey, contractAddress, tokenId, leverIds, newValues, callback) {
+	provider = new ethers.providers.JsonRpcProvider(providerURL);
 
 	provider.getNetwork().then(async (network) => {		
-		await useControlToken(tokenId, leverIds, newValues);
+		await useControlToken(privateKey, contractAddress, tokenId, leverIds, newValues);
 
 		callback();
 	});
 }
 
-function buildContractWithSigner(privateKey) {
-	let contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+function buildContractWithSigner(contractAddress, privateKey) {
+	let contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
 
 	let walletWithProvider = new ethers.Wallet(privateKey, provider);
 	
@@ -43,8 +43,8 @@ async function getGasPrice() {
 	return gasPrice;
 }
 
-async function useControlToken(tokenId, leverIds, newValues) {
-	var contractWithSigner = buildContractWithSigner(process.env.PRIVATE_KEY);
+async function useControlToken(privateKey, contractAddress, tokenId, leverIds, newValues) {
+	var contractWithSigner = buildContractWithSigner(contractAddress, privateKey);
 
 	console.log("Using control token " + tokenId + " with leverIds = " + leverIds + " and newValues = " + newValues);
 
